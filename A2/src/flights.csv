@@ -1,0 +1,23 @@
+FlightNumber,airplaneType,originCity,originAirport,destCity,destAirport,totalSeats,remainingSeats,ticketPrice
+1,Boeing 737,Islamabad,ISB,Lahore,LHE,95,95,15000
+2,Boeing 747,Islamabad,ISB,Karachi,KHI,150,150,30000
+3,Airbus A320,Islamabad,ISB,Quetta,UET,89,89,18000
+4,ATR-72,Islamabad,ISB,Multan,MUX,50,50,10000
+5,Boeing 737,Lahore,LHE,Islamabad,ISB,95,95,15000
+6,Boeing 747,Lahore,LHE,Karachi,KHI,150,150,30000
+7,Airbus A320,Lahore,LHE,Quetta,QUT,89,89,18000
+8,ATR-72,Lahore,LHE,Multan,MUX,50,50,10000
+9,Boeing 737,Karachi,KHI,Lahore,LHE,95,95,15000
+10,Boeing 747,Karachi,KHI,Quetta,UET,150,150,30000
+11,Airbus A320,Karachi,KHI,Multan,MUX,89,89,18000
+12,ATR-72,Karachi,KHI,Islamabad,ISB,50,50,10000
+13,Boeing 747,Quetta,UET,Lahore,LHE,95,95,15000
+14,Airbus A320,Quetta,UET,Karachi,KHI,150,150,30000
+15,ATR-72,Quetta,UET,Multan,MUX,50,50,10000
+16,Boeing 737,Quetta,UET,Islamabad,ISB,95,95,15000
+17,Airbus A320,Multan,MUX,Lahore,LHE,150,150,30000
+18,ATR-72,Multan,MUX,Karachi,KHI,89,89,18000
+19,Boeing 737,Multan,MUX,Quetta,UET,50,50,10000
+20,Boeing 747,Multan,MUX,Islamabad,ISB,95,95,15000
+21,ATR-72,Islamabad,ISB,Skardu,KDU,50,50,10000
+22,Boeing 737,Karachi,KHI,Gawadar,GWD,95,95,15000
