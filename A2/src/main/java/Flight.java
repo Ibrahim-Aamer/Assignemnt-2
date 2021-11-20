@@ -1,7 +1,17 @@
+import java.io.File;  // Import the File class
+import java.io.FileWriter;
+import java.io.IOException;  // Import the IOException class to handle errors
+import java.io.FileNotFoundException;  // Import this class to handle errors
+import java.text.DateFormat;
+import java.util.Scanner; // Import the Scanner class to read text files
+import java.util.StringTokenizer;
+import java.util.ArrayList; // import the ArrayList class
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class Flight
 {
-
+    private static int flightCounter = 0;
     private int flightNumber;
     private String airplaneType;
     private String originCity;
@@ -11,16 +21,20 @@ public class Flight
     private int totalSeats;
     private int remainingSeats;
     private float ticketPrice;
+    private String strDate;
+    private Date date;
+    private ArrayList<Passenger> passengerArray;
 
 
     //Default Constructor
     //Flight() {}
 
     //Parameterized constructor
-    public Flight(int flightNumber, String airplaneType, String originCity, String destCity, String originAirport,
-                  String destAirport, int totalSeats, int remainingSeats, float ticketPrice)
+    public Flight(String airplaneType, String originCity, String originAirport,String destCity,
+                  String destAirport, int totalSeats, int remainingSeats, float ticketPrice, String date)
     {
-        this.flightNumber = flightNumber;
+        flightCounter++;//incrementing flightCounter at every new instance
+        this.flightNumber = flightCounter;
         this.airplaneType = airplaneType;
         this.originCity = originCity;
         this.destCity = destCity;
@@ -29,7 +43,42 @@ public class Flight
         this.totalSeats = totalSeats;
         this.remainingSeats = remainingSeats;
         this.ticketPrice = ticketPrice;
+        this.passengerArray = new ArrayList<Passenger>();//passenger array to hold the flights passengers
+        this.strDate = date;
+        //parsing date string into date format
+        SimpleDateFormat formatter=new SimpleDateFormat("dd/MM/yyyy");
+
+
+        try
+        {
+
+            this.date = formatter.parse(date);
+
+        }
+        catch(Exception e)
+        {
+
+           //e.printStackTrace();
+           System.out.println(e.getMessage());
+        }
+        //Read passenger data from file
     }
+
+     public String getFileFormatFlightDetails()
+     {
+
+         return (this.flightNumber + "," +
+                 this.airplaneType + "," +
+                 this.originCity + "," +
+                 this.originAirport + "," +
+                 this.destCity + "," +
+                 this.destAirport + "," +
+                 this.totalSeats + "," +
+                 this.remainingSeats + "," +
+                 this.ticketPrice + "," +
+                 this.strDate
+                 );
+     }
 
     //Display function
     public String displayFlightDetails()
@@ -39,6 +88,13 @@ public class Flight
                 +" Destination : " + this.destCity);
     }
 
+    public Date getDate() {
+        return date;
+    }
+
+    public ArrayList<Passenger> getPassengerArray() {
+        return passengerArray;
+    }
 
     public float getTicketPrice() {
         return ticketPrice;
