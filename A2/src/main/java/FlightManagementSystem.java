@@ -8,7 +8,8 @@ import java.util.ArrayList; // import the ArrayList class
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Main {
+
+public class FlightManagementSystem {
     public static void main(String[] args)
     {
 
