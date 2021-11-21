@@ -23,7 +23,7 @@ public class Flight
     private float ticketPrice;
     private String strDate;
     private Date date;
-    private ArrayList<Passenger> passengerArray;
+    private ArrayList<PassengerTicket> passengerArray;
 
 
     //Default Constructor
@@ -43,7 +43,7 @@ public class Flight
         this.totalSeats = totalSeats;
         this.remainingSeats = remainingSeats;
         this.ticketPrice = ticketPrice;
-        this.passengerArray = new ArrayList<Passenger>();//passenger array to hold the flights passengers
+        this.passengerArray = new ArrayList<PassengerTicket>();//passenger array to hold the flights passengers
         this.strDate = date;
         //parsing date string into date format
         SimpleDateFormat formatter=new SimpleDateFormat("dd/MM/yyyy");
@@ -92,7 +92,7 @@ public class Flight
         return date;
     }
 
-    public ArrayList<Passenger> getPassengerArray() {
+    public ArrayList<PassengerTicket> getPassengerArray() {
         return passengerArray;
     }
 

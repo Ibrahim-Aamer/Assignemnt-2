@@ -1,5 +1,5 @@
 
-public class Passenger
+public class PassengerTicket
 {
     private static  int passengerCount = 0;
     private int ID;
@@ -8,15 +8,41 @@ public class Passenger
     private int age;
     private String address;
     private String passportNum;
+    private String bookStatus;//hold booking status
     private Flight flight;
+    private User bookedBy;  //to hold the User by whom this passenger ticket was booked
 
-
-    public Passenger()
+    public PassengerTicket(String name, String gender, int age, String address
+            , String passportNum, Flight flight, User bookedBy,String bookStatus)
     {
         passengerCount++;//incrementing passenger count
+        this.ID = passengerCount;//unique ID for every passenger
 
-        this.ID = passengerCount;
+        this.name = name;
+        this.gender = gender;
+        this.age = age;
+        this.address = address;
+        this.passportNum = passportNum;
+        this.bookStatus = bookStatus;
+        this.flight = flight;
+        this.bookedBy = bookedBy;
 
+        System.out.println("Ticket Reserved for " + this.name);
+
+    }
+
+    public String getFileFormatPassengerTicketDetails()
+    {
+        return(Integer.toString(this.ID)+","+this.name+","+this.gender+","+this.age+","+this.address
+                +","+this.passportNum+","+this.flight.getFlightNumber()+","+this.bookedBy.getUserID()+","+this.bookStatus);
+    }
+
+    public String getBookStatus() {
+        return bookStatus;
+    }
+
+    public void setBookStatus(String bookStatus) {
+        this.bookStatus = bookStatus;
     }
 
     public String getPassportNum() {
