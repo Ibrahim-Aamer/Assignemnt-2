@@ -178,11 +178,9 @@ public class FlightManagementSystem
             {
                 return flights.get(c);
             }
-            else
-            {
-                System.out.println("getFlightFromFlightNum ERROR flight not found!");
-            }
+
         }
+        System.out.println("getFlightFromFlightNum ERROR flight not found!");
         return null;
     }
 
@@ -194,11 +192,9 @@ public class FlightManagementSystem
             {
                 return users.get(c);
             }
-            else
-            {
-                System.out.println("getUserFromUserID ERROR user not found!");
-            }
+
         }
+        System.out.println("getUserFromUserID ERROR user not found!");
         return null;
     }
 

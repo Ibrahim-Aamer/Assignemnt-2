@@ -1,0 +1,5 @@
+ID,Name,gender,age,address,passportNum,flightNum,bookedByUser,bookingStatus
+1,ibrahim,male,21,house 61,1234,2,2,Reserved
+2,ibrahim,male,21,house 61,1234,2,2,Reserved
+3,ibrahim,male,21,house 61,1234,2,2,Reserved
+4,ibrahim,male,21,house 61,1234,2,2,Reserved
