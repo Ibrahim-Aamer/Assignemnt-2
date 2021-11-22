@@ -48,20 +48,24 @@ public class Flight
         //parsing date string into date format
         SimpleDateFormat formatter=new SimpleDateFormat("dd/MM/yyyy");
 
-
-        try
-        {
-
+        try {
             this.date = formatter.parse(date);
-
         }
-        catch(Exception e)
-        {
-
+        catch(Exception e) {
            //e.printStackTrace();
            System.out.println(e.getMessage());
         }
         //Read passenger data from file
+    }
+
+    public void TakeSeat()//called when a seat is booked/reserved
+    {
+        this.remainingSeats--;
+    }
+
+    public void AddSeat()//called when a seat is cancelled by user
+    {
+        this.remainingSeats++;
     }
 
      public String getFileFormatFlightDetails()
@@ -83,9 +87,8 @@ public class Flight
     //Display function
     public String displayFlightDetails()
     {
-        return ("Flight Num : " + this.flightNumber
-                +" Origin : " + this.originCity
-                +" Destination : " + this.destCity);
+        return (this.flightNumber +"         "+this.originAirport +"              " + this.destAirport+
+                "         " +this.ticketPrice+"        "+this.remainingSeats);
     }
 
     public Date getDate() {

@@ -81,12 +81,14 @@ public class FlightManagementSystem
         {
             //UserLogin function throws a custom exception of UserNameNotFound
             try {
-                UserLogin(users);
+                currentUser = UserLogin(users);
+                //Now that currentUser variable has been initialized we will call passengerticket function
+                TicketMenuFunction(currentUser,flights);
             }
             catch (UsernameNotFoundException e) {
                 System.out.println(e.getMessage());
             }
-            //Now that currentUser variable has been initialized we will call passengerticket function
+
 
         }
         else if( choice.equals("2") )//Creating new user
@@ -98,7 +100,7 @@ public class FlightManagementSystem
             //System.out.println(currentUser.getFileFormatUserDetails());
 
             //Now that currentUser variable has been initialized we will call passengerticket function
-
+           TicketMenuFunction(currentUser,flights);
 
         }
 
@@ -124,7 +126,7 @@ public class FlightManagementSystem
 
     //This function takes current user and flights array list as parameters
     // and books/reserves passengerTicket for user
-    public static ArrayList<PassengerTicket> PassengerTicketFunction(User currentUser,ArrayList<Flight> flights)
+    public static ArrayList<PassengerTicket> TicketMenuFunction(User currentUser,ArrayList<Flight> flights)
     {
         System.out.println("=======================\n"
                           +"      TICKET MENU      \n"
@@ -150,20 +152,111 @@ public class FlightManagementSystem
         //Creating a new passengerTickets Arraylist
         ArrayList<PassengerTicket> passengerTickets = new ArrayList<PassengerTicket>();
 
-        if(choice.equals("1"))
+        if(choice.equals("1"))//reserve ticket
         {
-
+            TicketSearchFunction(currentUser,flights,"Reserved");
         }
-        else if(choice.equals("2"))
+        else if(choice.equals("2"))//book ticket
         {
-
+            TicketSearchFunction(currentUser,flights,"Booked");
         }
-        else if(choice.equals("3"))
+        else if(choice.equals("3"))//book previously reserved tickets
         {
 
         }
 
         return passengerTickets;
+    }
+
+    //This function books/resererves a ticket for user after providing the search result
+    //it first takes flight details from user which are to be searched
+    public static ArrayList<PassengerTicket> TicketSearchFunction(User currentUser,ArrayList<Flight> flights,String bookStatus)
+    {
+        System.out.println("====================================\n"+
+                           "        SEARCH FOR FLIGHT           \n"
+                         + "------------------------------------");
+        Scanner scanInput = new Scanner(System.in);  // Create a Scanner object
+        String origin;
+        System.out.print("Enter Origin City : ");
+        origin = scanInput.nextLine();  // Read firstname from user input
+        String dest;
+        System.out.print("Enter Destination City : ");
+        dest = scanInput.nextLine();  // Read lastname from user input
+        Date flightDate;
+
+        //input validation for date input
+        while(true) {
+            System.out.print("Enter date (format dd/MM/yyyy) : ");
+            String date = scanInput.nextLine();  // Read address from user input
+
+            //parsing date string into date format
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+            try {
+                flightDate = formatter.parse(date);
+
+                break;//loop breaks after date accepted
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
+
+        System.out.println("___________________________________________________________");
+        System.out.println("                  AVAILABLE DIRECT FLIGHTS                 ");
+        System.out.println("-----------------------------------------------------------");
+        //Now we will search for flights at and after the given date
+        //Loop to iterate over flights array list and display result flights
+        System.out.println("Flight#" +"--"+ "OriginAirport" +"--"
+                + "DestAirport"+"--"+"TicketPrice"+"--"+"SeatsLeft");
+        for(int c=0 ; c< flights.size() ; c++)
+        {
+            //matching origin city and dest city
+            if(flights.get(c).getOriginCity().equals(origin) && flights.get(c).getDestCity().equals(dest))
+            {
+                //if the flight is after the given date
+                if(flightDate.before(flights.get(c).getDate()))
+                {
+                    System.out.println(flights.get(c).displayFlightDetails());
+                }
+            }
+        }
+
+        System.out.println("___________________________________________________________");
+        System.out.println("                 AVAILABLE INDIRECT FLIGHTS                ");
+        System.out.println("-----------------------------------------------------------");
+
+        int indirectCount = 0;
+
+        //2 for loops to find indirect flights
+        for(int c=0 ; c< flights.size() ; c++)
+        {
+            for(int i=0; i<flights.size();i++) {
+
+                //matching origin city and dest city
+                if (flights.get(c).getOriginCity().equals(origin) && flights.get(c).getDestCity().equals(flights.get(i).getOriginCity())
+                        && flights.get(i).getDestCity().equals(dest)) {
+                    //if the flight is after the given date
+                    if (flightDate.before(flights.get(c).getDate())
+                     && flights.get(c).getDate().before(flights.get(i).getDate()))
+                    {
+                        indirectCount++;
+                        System.out.println("IN-DIRECT FLIGHT #" + Integer.toString(indirectCount));
+                        System.out.println("Flight#" +"--"+ "OriginAirport" +"--"+ "DestAirport"+"--"+"TicketPrice"+"--"+"SeatsLeft");
+                        System.out.println(flights.get(c).displayFlightDetails());
+                        System.out.println(flights.get(i).displayFlightDetails());
+
+                    }
+                }
+            }
+        }
+
+        System.out.println("___________________________________________________________");
+
+
+
+
+        //Array list for passengerTickets
+        ArrayList<PassengerTicket> passengerTickets = new ArrayList<PassengerTicket>();
+        return passengerTickets;//return passengerTickets arraylist
     }
 
     //Registering a user and returning its object
