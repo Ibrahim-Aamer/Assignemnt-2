@@ -1,1 +1,2 @@
 ID,Name,gender,age,address,passportNum,flightNum,bookedByUser,bookingStatus
+1,John Carter,Male,34,House 1 st2,987654,2,3,Reserved

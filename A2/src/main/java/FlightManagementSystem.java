@@ -18,9 +18,7 @@ public class FlightManagementSystem
     //Main implements the menu of the whole flight management system
     public static void main(String[] args)
     {
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-        Date date = new Date();
-        System.out.println(formatter.format(date));
+
 
         //Array lists for users,flights and passenger tickets
         ArrayList<User> users;
@@ -83,7 +81,7 @@ public class FlightManagementSystem
             try {
                 currentUser = UserLogin(users);
                 //Now that currentUser variable has been initialized we will call passengerticket function
-                TicketMenuFunction(currentUser,flights);
+                passengerTickets.addAll(TicketMenuFunction(currentUser,flights));
             }
             catch (UsernameNotFoundException e) {
                 System.out.println(e.getMessage());
@@ -100,7 +98,7 @@ public class FlightManagementSystem
             //System.out.println(currentUser.getFileFormatUserDetails());
 
             //Now that currentUser variable has been initialized we will call passengerticket function
-           TicketMenuFunction(currentUser,flights);
+            passengerTickets.addAll(TicketMenuFunction(currentUser,flights));
 
         }
 
@@ -108,7 +106,11 @@ public class FlightManagementSystem
 
 
 
-       /* if(date.before(flights.get(1).getDate())) {
+       /*
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        Date date = new Date();
+        System.out.println(formatter.format(date));
+        if(date.before(flights.get(1).getDate())) {
             // In between
             System.out.println("Date valid");
         }
@@ -154,11 +156,23 @@ public class FlightManagementSystem
 
         if(choice.equals("1"))//reserve ticket
         {
-            TicketSearchFunction(currentUser,flights,"Reserved");
+            try {
+                passengerTickets.addAll(TicketSearchFunction(currentUser, flights, "Reserved"));
+            }
+            catch(InvalidDateException e)
+            {
+                System.out.println(e.getMessage());
+            }
         }
         else if(choice.equals("2"))//book ticket
         {
-            TicketSearchFunction(currentUser,flights,"Booked");
+            try {
+                passengerTickets.addAll(TicketSearchFunction(currentUser, flights, "Booked"));
+            }
+            catch(InvalidDateException e)
+            {
+                System.out.println(e.getMessage());
+            }
         }
         else if(choice.equals("3"))//book previously reserved tickets
         {
@@ -171,6 +185,7 @@ public class FlightManagementSystem
     //This function books/resererves a ticket for user after providing the search result
     //it first takes flight details from user which are to be searched
     public static ArrayList<PassengerTicket> TicketSearchFunction(User currentUser,ArrayList<Flight> flights,String bookStatus)
+    throws InvalidDateException
     {
         System.out.println("====================================\n"+
                            "        SEARCH FOR FLIGHT           \n"
@@ -199,6 +214,21 @@ public class FlightManagementSystem
                 System.out.println(e.getMessage());
             }
         }
+
+
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        Date date = new Date();//todays date
+        System.out.println(formatter.format(date));
+        if(date.before(flightDate)) {
+            // In between
+            //System.out.println("Date valid");
+        }
+        else
+        {
+            System.out.println("Date not valid");
+            throw new InvalidDateException("InvalidDateException. Date not valid ");
+        }
+
 
         System.out.println("___________________________________________________________");
         System.out.println("                  AVAILABLE DIRECT FLIGHTS                 ");
@@ -251,12 +281,84 @@ public class FlightManagementSystem
 
         System.out.println("___________________________________________________________");
 
-
-
-
         //Array list for passengerTickets
         ArrayList<PassengerTicket> passengerTickets = new ArrayList<PassengerTicket>();
+
+        //Now booking/reserving passengerTickets
+        System.out.println("=======================\n"
+                          +"      BOOK FLIGHT      \n"
+                          +"-----------------------\n"
+                          +"1. Direct Flight       \n"
+                          +"2. In-direct Flight    \n"
+                          +"=======================");
+
+        System.out.println("Enter Choice : ");
+        String choice = scanInput.nextLine();  // Read user input
+
+        //Input validation loop
+        while(!choice.equals("1") && !choice.equals("2") )
+        {
+            System.out.println("Invalid Choice!\n");
+            System.out.println("Enter Choice : ");
+            choice = scanInput.nextLine();  // Read user input
+        }
+
+        if(choice.equals("1"))//direct flight
+        {
+            int flightNum;
+            System.out.print("Enter Direct Flight # : ");
+            flightNum = scanInput.nextInt();  // Read address from user input
+
+            passengerTickets.add(CreatePassengerTicket(currentUser,bookStatus,getFlightFromFlightNum(flights,flightNum)));
+
+        }
+        else if(choice.equals("2"))//indirect flight
+        {
+            int flight1Num;
+            System.out.print("Enter Indirect Flight 1 # : ");
+            flight1Num = scanInput.nextInt();  // Read address from user input
+            int flight2Num;
+            System.out.print("Enter Indirect Flight 2 # : ");
+            flight2Num = scanInput.nextInt();  // Read address from user input
+
+            passengerTickets.add(CreatePassengerTicket(currentUser,bookStatus,getFlightFromFlightNum(flights,flight1Num)));
+            passengerTickets.add(CreatePassengerTicket(currentUser,bookStatus,getFlightFromFlightNum(flights,flight2Num)));
+
+
+        }
+
+
         return passengerTickets;//return passengerTickets arraylist
+    }
+
+    public static PassengerTicket CreatePassengerTicket(User currentUser, String bookStatus,Flight flight)
+    {
+        System.out.println("====================================\n"+
+                           "KINDLY FILL OUT REGISTRATION DETAILS\n"
+                         + "------------------------------------");
+        Scanner scanInput = new Scanner(System.in);  // Create a Scanner object
+        String name;
+        System.out.print("Enter Name : ");
+        name = scanInput.nextLine();  // Read firstname from user input
+        String gender;
+        System.out.print("Enter Gender : ");
+        gender = scanInput.nextLine();  // Read lastname from user input
+        String age;
+        System.out.print("Enter Age : ");
+        age = scanInput.nextLine();  // Read address from user input
+        String passNum;
+        System.out.print("Enter Passport Number : ");
+        passNum = scanInput.nextLine();  // Read lastname from user input
+
+
+        PassengerTicket passengerTicket = new PassengerTicket(name,gender,Integer.valueOf(age), currentUser.getAddress()
+                , passNum,flight,currentUser,bookStatus);
+
+        flight.TakeSeat();//decrementing remaining seat in flight
+
+        System.out.println("------------------------------------");
+
+        return passengerTicket;
     }
 
     //Registering a user and returning its object

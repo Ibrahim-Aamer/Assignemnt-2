@@ -1,8 +1,8 @@
 FlightNumber,airplaneType,originCity,originAirport,destCity,destAirport,totalSeats,remainingSeats,ticketPrice
-1,Boeing 737,Islamabad,ISB,Lahore,LHE,95,95,15000.0,1/12/2021
-2,Boeing 747,Islamabad,ISB,Karachi,KHI,150,150,30000.0,2/12/2021
+1,Boeing 737,Islamabad,ISB,Lahore,LHE,95,94,15000.0,1/12/2021
+2,Boeing 747,Islamabad,ISB,Karachi,KHI,150,147,30000.0,2/12/2021
 3,Airbus A320,Islamabad,ISB,Quetta,UET,89,89,18000.0,3/12/2021
-4,ATR-72,Islamabad,ISB,Multan,MUX,50,50,10000.0,4/12/2021
+4,ATR-72,Islamabad,ISB,Multan,MUX,50,49,10000.0,4/12/2021
 5,Boeing 737,Lahore,LHE,Islamabad,ISB,95,95,15000.0,5/12/2021
 6,Boeing 747,Lahore,LHE,Karachi,KHI,150,150,30000.0,6/12/2021
 7,Airbus A320,Lahore,LHE,Quetta,QUT,89,89,18000.0,7/12/2021
