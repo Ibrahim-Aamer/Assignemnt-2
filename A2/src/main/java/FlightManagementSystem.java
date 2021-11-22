@@ -2,6 +2,8 @@ import java.io.File;  // Import the File class
 import java.io.FileWriter;
 import java.io.IOException;  // Import the IOException class to handle errors
 import java.io.FileNotFoundException;  // Import this class to handle errors
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner; // Import the Scanner class to read text files
 import java.util.StringTokenizer;
 import java.util.ArrayList; // import the ArrayList class
@@ -16,6 +18,10 @@ public class FlightManagementSystem
     //Main implements the menu of the whole flight management system
     public static void main(String[] args)
     {
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        Date date = new Date();
+        System.out.println(formatter.format(date));
+
         //Array lists for users,flights and passenger tickets
         ArrayList<User> users;
         ArrayList<Flight> flights;
@@ -28,18 +34,26 @@ public class FlightManagementSystem
         //Reading passengerTickets.csv and saving in passengerTickets arraylist
         passengerTickets = ReadPassengerTicketDetails(flights,users);
 
-        User temp = new User("ibrahim","aamer","house 61");
-
+       /* User temp = new User("ibrahim","aamer","house 61");
+        try {
+            if(false) {//checking if exection will be thrown
+                throw new UnderageUserException("Hello");
+            }
+        }
+        catch(UnderageUserException e)
+        {
+            System.out.println("Hello exception");
+            e.getMessage();
+        }
         //users.add(temp);
 
         PassengerTicket tempP = new PassengerTicket("ibrahim","male",21,"house 61","1234",flights.get(1),users.get(1),"Reserved");
-        passengerTickets.add(tempP);
+        passengerTickets.add(tempP);*/
 
-        /*System.out.println("-----------------------------------\n"
+        System.out.println("-----------------------------------\n"
                           +"WELCOME TO FLIGHT MANAGEMENT SYSTEM\n"
                           +"-----------------------------------");
 
-        User currentUser;//hold the current user
 
         System.out.println("=================\n"
                           +"     MENU        \n"
@@ -61,33 +75,148 @@ public class FlightManagementSystem
             choice = scanInput.nextLine();  // Read user input
         }
 
+        User currentUser;//This user objects holds user of current session
+
         if( choice.equals("1") )//Login
         {
+            //UserLogin function throws a custom exception of UserNameNotFound
+            try {
+                UserLogin(users);
+            }
+            catch (UsernameNotFoundException e) {
+                System.out.println(e.getMessage());
+            }
+            //Now that currentUser variable has been initialized we will call passengerticket function
 
         }
         else if( choice.equals("2") )//Creating new user
         {
+            currentUser = UserRegister();//creating new user
 
+            //Adding newly made user to users arraylist
+            users.add(currentUser);
+            //System.out.println(currentUser.getFileFormatUserDetails());
+
+            //Now that currentUser variable has been initialized we will call passengerticket function
+
+
+        }
+
+
+
+
+
+       /* if(date.before(flights.get(1).getDate())) {
+            // In between
+            System.out.println("Date valid");
+        }
+        else
+        {
+            System.out.println("Date not valid");
         }*/
 
-
-       /* ArrayList<Flight> flightsArray = new ArrayList<Flight>();
-
-        flightsArray = ReadFlightDetails();
-
-        System.out.println("FLIGHT DETAILS :  \n");
-
-        for(int c=0 ; c<flightsArray.size() ; c++)
-        {
-            System.out.println(flightsArray.get(c).getFileFormatFlightDetails());
-            //System.out.println("Error here");
-        }
-        */
-        //
         SaveFlightDetails(flights);
         SaveUserDetails(users);
         SavePassengerTicketsDetails(passengerTickets);
 
+
+    }
+
+    //This function takes current user and flights array list as parameters
+    // and books/reserves passengerTicket for user
+    public static ArrayList<PassengerTicket> PassengerTicketFunction(User currentUser,ArrayList<Flight> flights)
+    {
+        System.out.println("=======================\n"
+                          +"      TICKET MENU      \n"
+                          +"-----------------------\n"
+                          +"1. Reserve Ticket      \n"
+                          +"2. Book Ticket         \n"
+                          +"3  Book Reserved Ticket\n"
+                          +"4. Exit\n"
+                          +"=======================");
+
+        System.out.println("Enter Choice : ");
+        Scanner scanInput = new Scanner(System.in);  // Create a Scanner object
+        String choice = scanInput.nextLine();  // Read user input
+
+        //Input validation loop
+        while(!choice.equals("1") && !choice.equals("2") && !choice.equals("3") && !choice.equals("4"))
+        {
+            System.out.println("Invalid Choice!\n");
+            System.out.println("Enter Choice : ");
+            choice = scanInput.nextLine();  // Read user input
+        }
+
+        //Creating a new passengerTickets Arraylist
+        ArrayList<PassengerTicket> passengerTickets = new ArrayList<PassengerTicket>();
+
+        if(choice.equals("1"))
+        {
+
+        }
+        else if(choice.equals("2"))
+        {
+
+        }
+        else if(choice.equals("3"))
+        {
+
+        }
+
+        return passengerTickets;
+    }
+
+    //Registering a user and returning its object
+    public static User UserRegister()
+    {
+        User user;//user object to return
+        System.out.println("====================================\n"+
+                           "KINDLY FILL OUT REGISTRATION DETAILS\n"
+                         + "------------------------------------");
+        Scanner scanInput = new Scanner(System.in);  // Create a Scanner object
+        String fName;
+        System.out.print("Enter First Name : ");
+        fName = scanInput.nextLine();  // Read firstname from user input
+        String lName;
+        System.out.print("Enter Last Name : ");
+        lName = scanInput.nextLine();  // Read lastname from user input
+        String address;
+        System.out.print("Enter Address : ");
+        address = scanInput.nextLine();  // Read address from user input
+
+
+        //Parameterzied constructor2 for user
+        User temp = new User(fName, lName,address);//creating new user
+
+        System.out.println("====================================\n");
+
+        return temp;
+    }
+
+    //This function takes a username and login the user and returns user object
+    public static User UserLogin(ArrayList<User> usersArray) throws UsernameNotFoundException
+    {
+        User user;//user object to return
+
+        Scanner scanInput = new Scanner(System.in);  // Create a Scanner object
+        String enteredUserName;
+        System.out.println("Enter Username : ");
+        enteredUserName = scanInput.nextLine();  // Read username from user input
+
+        //Loop to iterate over users array
+        for(int c=0 ; c< usersArray.size(); c++)
+        {
+            //If username matched with a user return that object
+            if(enteredUserName.equals(usersArray.get(c).getUserName()))
+            {
+                return usersArray.get(c);//return user
+            }
+        }
+
+        throw new UsernameNotFoundException("UsernameNotFoundException: Invalid_Username.");
+        //exception throws if code reaches here
+
+        //return null;
 
     }
 
@@ -112,8 +241,7 @@ public class FlightManagementSystem
 
                 st.nextToken();//avoiding FlightNumber token
                 //Creating new temp flight object from tokens recieved from file
-                User temp = new User(st.nextToken(),st.nextToken(),st.nextToken(),
-                        st.nextToken());
+                User temp = new User(st.nextToken(),st.nextToken(),st.nextToken(), st.nextToken());
                 //Adding temp flight object into ArrayList
                 users.add(temp);
 
